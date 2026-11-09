@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090B">
+<title>Trauma kit | Secured Safety Solutions</title>
+<meta name="description" content="A sealed trauma kit packed by working SWAT medics and fire captains. Full item list, case details and price.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
+</head>
+<body data-page="product">
+<header data-site-header></header>
+
+<main id="main" data-product>
+
+  <section class="p-top wrap">
+    <p class="p-back"><a class="link" href="kits.html"><i class="ph ph-arrow-left" aria-hidden="true"></i> All kits</a></p>
+    <h1 class="p-name" data-p="name"></h1>
+    <div class="p-grid">
+      <figure class="p-photo" data-p="photo"></figure>
+      <div class="p-buy" data-buy>
+        <p class="p-pitch" data-p="pitch"></p>
+        <p class="p-price" data-p="price"></p>
+        <fieldset class="p-colors" data-p="colors" hidden></fieldset>
+        <div class="p-qty">
+          <label for="qty">Quantity</label>
+          <div class="stepper">
+            <button type="button" data-qty-step="-1" data-qty-for="#qty" aria-label="One fewer"><i class="ph ph-minus" aria-hidden="true"></i></button>
+            <input id="qty" data-qty type="text" inputmode="numeric" value="1" autocomplete="off">
+            <button type="button" data-qty-step="1" data-qty-for="#qty" aria-label="One more"><i class="ph ph-plus" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <button class="btn btn--orange btn--block" type="button" data-add-kit data-variant-from="color" data-qty-from="#qty">Add to cart</button>
+        <a class="link" href="dealers.html#quote">Ask for multi-kit or department pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap p-detail">
+    <p class="lede" data-p="desc"></p>
+    <table class="spec">
+      <caption class="vh">Kit details</caption>
+      <tbody data-p="spec"></tbody>
+    </table>
+  </section>
+
+  <section class="sec sec--rule p-carries">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2">What it carries.</h2>
+        <p data-p="same"></p>
+      </div>
+      <div data-loadout></div>
+    </div>
+  </section>
+
+  <section class="sec sec--rule">
+    <div class="wrap p-why">
+      <div>
+        <h2 data-p="why-title"></h2>
+        <ul class="ticks" data-p="why"></ul>
+      </div>
+      <div>
+        <h2>Built for</h2>
+        <ul class="ticks" data-p="ideal"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--rule">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2">The rest of the bench.</h2>
+        <p>Boxes shown at true length, side by side.</p>
+      </div>
+      <ul class="bench" data-lineup></ul>
+    </div>
+  </section>
+
+</main>
+
+<div class="buybar" data-buybar>
+  <div class="buybar__in">
+    <span class="buybar__name" data-p="name"></span>
+    <span class="buybar__price" data-p="price"></span>
+    <button class="btn btn--orange" type="button" data-add-kit data-variant-from="color" data-qty-from="#qty">Add to cart</button>
+  </div>
+</div>
+
+<footer data-site-footer></footer>
+</body>
+</html>
