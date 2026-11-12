@@ -323,10 +323,10 @@
             '<p class="buy-meta">Kit code <span class="mono">' + k.code + '</span>. ' + itemCount(k) + ' items.</p>' +
             '<p class="buy-price">' + money(k.price) + '</p>' +
             '<p class="buy-pitch">' + esc(k.pitch) + '</p>' +
-            '<div class="buy-group"><span class="label" id="size-label">Size</span><div class="opts" role="group" aria-labelledby="size-label">' +
-              ORDER.map(o => '<a class="opt" href="' + kitUrl(o) + '"' + (o === id ? ' aria-current="true"' : '') + '><span>' + SIZE_LABEL[o] + '</span><small class="mono">' + money(KITS[o].price) + '</small></a>').join('') + '</div></div>' +
-            (k.colors ? '<fieldset class="buy-group"><legend>Color</legend><div class="opts">' +
-              k.colors.map((c, i) => '<input class="vh" type="radio" name="color" id="color-' + i + '" data-variant data-photo="' + PHOTO + c.photo + '" value="' + c.id + '"' + (i ? '' : ' checked') + '><label class="opt opt-swatch" for="color-' + i + '"><i class="' + c.chip + '" aria-hidden="true"></i>' + c.id + '</label>').join('') + '</div></fieldset>' : '') +
+            '<div class="buy-group"><span class="label" id="size-label">Size</span><div class="size-tabs" role="group" aria-labelledby="size-label">' +
+              ORDER.map(o => '<a class="size-tab" href="' + kitUrl(o) + '"' + (o === id ? ' aria-current="true"' : '') + '><b>' + SIZE_LABEL[o] + '</b><span class="mono">' + money(KITS[o].price) + '</span></a>').join('') + '</div></div>' +
+            (k.colors ? '<fieldset class="buy-group"><legend>Color</legend><div class="color-picks">' +
+              k.colors.map((c, i) => '<input class="vh" type="radio" name="color" id="color-' + i + '" data-variant data-photo="' + PHOTO + c.photo + '" value="' + c.id + '"' + (i ? '' : ' checked') + '><label class="color-pick" for="color-' + i + '"><i class="' + c.chip + '" aria-hidden="true"></i><span>' + c.id + '</span></label>').join('') + '</div></fieldset>' : '') +
             '<div class="buy-row">' + stepper('Quantity') + '<button class="btn" type="button" data-add="' + id + '">Add to cart</button></div>' +
             '<ul class="buy-notes"><li>Ships from Port St. Lucie, Florida.</li><li>' + esc(k.water) + '</li><li>Buying for a team, fleet or store? <a href="dealers.html">Ask for multi-kit or department pricing</a></li></ul>' +
           '</div>' +

@@ -289,6 +289,20 @@ h1, h2, h3 { text-wrap: balance; }
 input:focus-visible + .opt { outline: 2px solid var(--navy); outline-offset: 3px; }
 .opt-swatch { flex-direction: row; align-items: center; gap: 8px; }
 .opt-swatch i { width: 18px; height: 18px; border: 1px solid var(--line-strong); border-radius: 2px; }
+/* Product page pickers: big size numbers with a red line under the picked one, colours as swatch blocks. */
+.size-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line-strong); }
+.size-tab { display: flex; flex-direction: column; gap: 4px; min-height: 48px; padding: 4px 0 12px; margin-bottom: -1px; border-bottom: 3px solid transparent; color: var(--ink-2); text-decoration: none; }
+.size-tab b { font-weight: 800; font-stretch: 120%; font-size: 1.5rem; line-height: 1; }
+.size-tab .mono { font-size: 0.8125rem; }
+.size-tab:hover { color: var(--ink); border-bottom-color: var(--line-strong); }
+.size-tab[aria-current="true"] { border-bottom-color: var(--red); color: var(--ink); }
+.color-picks { display: flex; flex-wrap: wrap; gap: 20px; }
+.color-pick { display: flex; flex-direction: column; gap: 8px; font-weight: 600; font-size: 0.9375rem; color: var(--ink-2); cursor: pointer; }
+.color-pick i { display: block; width: 120px; max-width: 34vw; height: 56px; border-radius: 4px; }
+input:checked + .color-pick { color: var(--ink); }
+input:checked + .color-pick i { outline: 2px solid var(--navy); outline-offset: 3px; }
+input:focus-visible + .color-pick i { outline: 3px solid var(--navy); outline-offset: 3px; }
+@media (max-width: 419px) { .size-tab b { font-size: 1.25rem; } }
 .c-orange { background: #E5661A; }
 .c-beige { background: #C9B48E; }
 .opts-dates { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
