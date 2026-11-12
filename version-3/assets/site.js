@@ -104,7 +104,7 @@
   if (header) {
     const next = CLASS.sessions[0];
     header.insertAdjacentHTML('beforebegin',
-      '<div class="announce on-navy"><div class="wrap"><span>Next trauma class <span class="mono">' + milDate(next[0]) + '</span> in ' + next[1] + ' <span class="mark-note">[Sample date]</span></span><a href="classes.html">Reserve a seat</a></div></div>');
+      '<div class="announce on-navy"><div class="wrap"><span>Next trauma class <span class="mono">' + milDate(next[0]) + '</span> in ' + next[1] + '</span><a href="classes.html">Reserve a seat</a></div></div>');
     header.innerHTML =
       '<div class="wrap bar">' +
         '<a class="brand" href="index.html" aria-label="Secured Safety Solutions, home">' + mark + '<span class="brand-name"><span>Secured Safety</span><span>Solutions</span></span></a>' +
@@ -347,7 +347,7 @@
       '</div></section>' +
       '<section class="section-tight wrap"><div class="addon" data-buy><img src="' + PHOTO + CLASS.photo + '" alt="" loading="lazy" width="320" height="320">' +
         '<div><h2 class="sub">Add the 8-hour trauma class</h2><p>Know how to use what you carry. Hands-on and in person, taught by the medics who build the kits. <span class="price">' + money(CLASS.price) + '</span> a seat.</p></div>' +
-        '<div class="addon-buy"><label for="addon-date">Class date [Sample dates]</label><select id="addon-date" data-variant>' + CLASS.sessions.map(s => '<option>' + sessionLabel(s) + '</option>').join('') + '</select><button class="btn btn-navy" type="button" data-add="class">Add a seat</button></div></div></section>' +
+        '<div class="addon-buy"><label for="addon-date">Class date</label><select id="addon-date" data-variant>' + CLASS.sessions.map(s => '<option>' + sessionLabel(s) + '</option>').join('') + '</select><button class="btn btn-navy" type="button" data-add="class">Add a seat</button></div></div></section>' +
       '<section class="section wrap"><div class="head-row"><h2 class="head">Other kits</h2><a class="more" href="kits.html#compare">Compare all four<i class="ph ph-arrow-right" aria-hidden="true"></i></a></div><div class="others">' +
         ORDER.filter(o => o !== id).map(o => '<a href="' + kitUrl(o) + '"><img src="' + PHOTO + KITS[o].photo + '" alt="" loading="lazy" width="64" height="64"><span><strong>' + esc(KITS[o].name) + '</strong><span>' + esc(KITS[o].short) + '</span></span><span class="price">' + money(KITS[o].price) + '</span></a>').join('') + '</div></section>';
 

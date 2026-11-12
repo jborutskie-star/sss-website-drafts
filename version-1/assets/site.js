@@ -667,7 +667,7 @@
         const days = new Date(view.y, view.m + 1, 0).getDate();
         const heads = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
         const fulls = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        let h = `<caption class="vh">Class sessions in ${MON_FULL[view.m]} ${view.y}, sample dates</caption><thead><tr>` +
+        let h = `<caption class="vh">Class sessions in ${MON_FULL[view.m]} ${view.y}</caption><thead><tr>` +
           heads.map((d, i) => `<th scope="col"><abbr title="${fulls[i]}">${d}</abbr></th>`).join('') + '</tr></thead><tbody><tr>';
         for (let i = 0; i < lead; i++) h += '<td class="cal-pad"></td>';
         for (let d = 1; d <= days; d++) {
