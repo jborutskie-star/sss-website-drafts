@@ -247,14 +247,22 @@
   /* ---------- The shelf ---------- */
   const count = (k, name) => (k.contents.find(c => c[0].includes(name)) || ['', '0'])[1];
   const addButton = (id, cls) => '<button class="btn ' + cls + '" type="button" data-add="' + id + '"' + (KITS[id].colors ? ' data-variant="' + KITS[id].colors[0].id + '"' : '') + '>Add to cart<span class="vh">, ' + esc(KITS[id].name) + '</span></button>';
+  const seals = k => { const n = count(k, 'Chest Seal'); return /\D/.test(n) ? n.replace(' ', ' seal ') : n + ' seals'; };
+  const kind = id => id === 'ifak' ? 'Wearable pouch' : 'Trauma Box';
   $$('[data-shelf]').forEach(el => {
+    const rows = el.dataset.shelf === 'rows';
     el.innerHTML = ORDER.map(id => {
       const k = KITS[id];
-      return '<li class="kit">' +
-        '<a class="kit-photo" href="' + kitUrl(id) + '" tabindex="-1" aria-hidden="true"><img src="' + PHOTO + k.photo + '" alt="" loading="lazy" width="640" height="480"></a>' +
-        '<h3><a href="' + kitUrl(id) + '">' + esc(k.name) + '</a></h3><p>' + esc(k.short) + '</p>' +
-        '<dl><div><dt>Case</dt><dd>' + k.caseShort + '</dd></div><div><dt>CAT tourniquets</dt><dd>' + count(k, 'Tourniquet') + '</dd></div><div><dt>Chest seals</dt><dd>' + count(k, 'Chest Seal') + '</dd></div><div><dt>Items in the kit</dt><dd>' + itemCount(k) + '</dd></div></dl>' +
-        '<div class="kit-buy"><span class="price">' + money(k.price) + '</span>' + addButton(id, 'btn-small') + '</div></li>';
+      const photo = '<a href="' + kitUrl(id) + '" tabindex="-1" aria-hidden="true"><img src="' + PHOTO + k.photo + '" alt="" loading="lazy" width="640" height="480"></a>';
+      if (rows) return '<li class="kit-row">' + photo +
+        '<div class="kit-row-name"><h2><a href="' + kitUrl(id) + '">' + esc(k.name) + '</a></h2><p>' + esc(k.short) + '</p></div>' +
+        '<dl class="kit-row-facts"><div><dt>Case</dt><dd>' + k.caseShort + '</dd></div><div><dt>CAT tourniquets</dt><dd>' + count(k, 'Tourniquet') + '</dd></div><div><dt>Chest seals</dt><dd>' + count(k, 'Chest Seal') + '</dd></div><div><dt>Items</dt><dd>' + itemCount(k) + '</dd></div></dl>' +
+        '<div class="kit-row-buy"><span class="price">' + money(k.price) + '</span>' + addButton(id, 'btn-small') + '</div></li>';
+      return '<li class="kit">' + photo.replace('<a ', '<a class="kit-photo" ') +
+        '<div class="kit-top"><h3><a href="' + kitUrl(id) + '">' + SIZE_LABEL[id] + (id === 'ifak' ? '' : '<span class="vh"> Trauma Box</span>') + '</a></h3><span class="price">' + money(k.price) + '</span></div>' +
+        '<p class="kit-kind"' + (id === 'ifak' ? '' : ' aria-hidden="true"') + '>' + kind(id) + '</p><p>' + esc(k.short) + '</p>' +
+        '<p class="kit-facts mono">' + count(k, 'Tourniquet') + ' CAT / ' + seals(k) + ' / ' + itemCount(k) + ' items</p>' +
+        addButton(id, '') + '</li>';
     }).join('');
   });
 
