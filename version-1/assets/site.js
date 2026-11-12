@@ -169,10 +169,10 @@
   const headerHTML = () => `
     <div class="h2-strip" data-strip>
       <div class="wrap h2-strip-in">
-        <p class="h2-coords"><span>${LAT}</span><span>${LON}</span></p>
         <a class="h2-tel" href="${TEL}">${PHONE}</a>
-        <p class="h2-city">Port St. Lucie, FL</p>
         <a class="h2-mail" href="mailto:${EMAIL}">${EMAIL}</a>
+        <p class="h2-city">Port St. Lucie, FL</p>
+        <p class="h2-coords"><span>${LAT}</span><span>${LON}</span></p>
       </div>
     </div>
     <div class="h2-bar">

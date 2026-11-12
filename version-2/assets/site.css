@@ -612,6 +612,8 @@ a { color: inherit; }
 .stack > .rows { margin-top: clamp(36px, 4vw, 56px); }
 .phone { display: inline-block; font: 800 clamp(3rem, 14.4vw, 14rem)/1 var(--display); font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; }
 .phone:hover { color: var(--orange); }
+.mail { display: block; width: fit-content; max-width: 100%; margin-top: clamp(6px, 1vw, 14px); font: 700 clamp(1.25rem, 4.6vw, 4.5rem)/1.05 var(--display); text-decoration: none; overflow-wrap: anywhere; }
+.mail:hover { color: var(--orange); }
 .closer { display: grid; gap: 28px; }
 .closer p { max-width: 56ch; }
 .closer .btn { justify-self: start; }

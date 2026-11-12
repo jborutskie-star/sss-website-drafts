@@ -104,18 +104,17 @@
   if (header) {
     const next = CLASS.sessions[0];
     header.insertAdjacentHTML('beforebegin',
-      '<div class="announce on-navy"><div class="wrap"><span>Next trauma class <span class="mono">' + milDate(next[0]) + '</span> in ' + next[1] + '</span><a href="classes.html">Reserve a seat</a></div></div>');
+      '<div class="announce on-navy"><div class="wrap"><span>Next trauma class <span class="mono">' + milDate(next[0]) + '</span> in ' + next[1] + ' <a href="classes.html">Reserve a seat</a></span><span class="announce-reach"><a class="mono" href="' + TEL + '">' + PHONE + '</a><a href="mailto:' + EMAIL + '">' + EMAIL + '</a></span></div></div>');
     header.innerHTML =
       '<div class="wrap bar">' +
         '<a class="brand" href="index.html" aria-label="Secured Safety Solutions, home">' + mark + '<span class="brand-name"><span>Secured Safety</span><span>Solutions</span></span></a>' +
         '<nav class="nav" aria-label="Main"><ul>' + navItems + '</ul></nav>' +
         '<div class="tools">' +
-          '<a class="phone" href="' + TEL + '"><i class="ph ph-phone" aria-hidden="true"></i>' + PHONE + '</a>' +
           '<button class="icon-btn" type="button" data-cart-open aria-haspopup="dialog"><i class="ph ph-shopping-cart-simple" aria-hidden="true"></i><span class="cart-word">Cart</span><span class="cart-count" data-cart-count hidden></span></button>' +
           '<button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-menu"><i class="ph ph-list" aria-hidden="true"></i><span class="vh">Menu</span></button>' +
         '</div>' +
       '</div>' +
-      '<div class="menu" id="site-menu" hidden><nav class="wrap" aria-label="Main, mobile"><ul>' + navItems + '<li><a href="' + TEL + '">Call ' + PHONE + '</a></li></ul></nav></div>';
+      '<div class="menu" id="site-menu" hidden><nav class="wrap" aria-label="Main, mobile"><ul>' + navItems + '<li><a href="' + TEL + '">Call ' + PHONE + '</a></li><li><a href="mailto:' + EMAIL + '">' + EMAIL + '</a></li></ul></nav></div>';
     header.insertAdjacentHTML('afterend',
       '<div class="trust"><div class="wrap"><ul><li>Built by active SWAT medics and fire captains</li><li>Sealed hard cases for boat, truck and field</li><li>Hands-on trauma classes in Port St. Lucie</li></ul></div></div>');
 
