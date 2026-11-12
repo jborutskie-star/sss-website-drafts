@@ -112,9 +112,9 @@ h1, h2, h3 { text-wrap: balance; }
 .menu a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); font-weight: 600; text-decoration: none; }
 .menu li:last-child a { border-bottom: 0; font-family: var(--mono); font-weight: 500; }
 
-.trust { background: var(--mist); border-bottom: 1px solid var(--line); font-size: 0.8125rem; color: var(--ink-2); }
+.trust { background: var(--mist); border-bottom: 1px solid var(--line-strong); font-size: 0.9375rem; font-weight: 600; color: var(--navy); }
 .trust ul { display: flex; justify-content: center; }
-.trust li { padding: 8px 20px; }
+.trust li { flex: 1; padding: 14px 20px; text-align: center; }
 .trust li + li { border-left: 1px solid var(--line-strong); }
 .trust li:not(:first-child) { display: none; }
 
