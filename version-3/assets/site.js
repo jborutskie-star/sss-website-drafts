@@ -136,7 +136,7 @@
         '<div class="foot-brand">' + mark + '<p>Prepared.<br>Tactical.<br>Proven.</p></div>' +
         '<div><h2>Shop</h2><ul>' + ORDER.map(id => '<li><a href="' + kitUrl(id) + '">' + esc(KITS[id].name) + '</a></li>').join('') + '<li><a href="classes.html">8-hour trauma class</a></li><li><a href="kits.html#compare">Compare kits</a></li></ul></div>' +
         '<div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="dealers.html">Departments &amp; Dealers</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li></ul></div>' +
-        '<div><h2>Reach us</h2><ul><li><a class="mono" href="' + TEL + '">' + PHONE + '</a></li><li><a href="mailto:' + EMAIL + '">' + EMAIL + '</a></li><li>Port St. Lucie, Florida</li><li>Social [Links to confirm]</li></ul></div>' +
+        '<div><h2>Reach us</h2><ul><li><a class="mono" href="' + TEL + '">' + PHONE + '</a></li><li><a href="mailto:' + EMAIL + '">' + EMAIL + '</a></li><li>Port St. Lucie, Florida</li></ul></div>' +
         '<form class="foot-news" data-form novalidate data-done="You are on the list. We will email you when new dates are posted."><h2>Class dates by email</h2><p>We will email you when new class dates and refresher courses are posted.</p>' +
           '<div class="field"><label for="foot-email">Email</label><div class="row"><input id="foot-email" name="email" type="email" autocomplete="email" required data-err="Enter your email address."><button class="btn btn-white" type="submit">Sign up</button></div></div><p data-status role="status"></p></form>' +
       '</div>' +
@@ -179,7 +179,7 @@
     }).join('') + '</ul>';
     foot.hidden = false;
     foot.innerHTML = '<p class="subtotal"><span>Subtotal</span><span class="price">' + money(cart.reduce((n, i) => n + product(i.id).price * i.qty, 0)) + '</span></p>' +
-      '<p class="note">Shipping and tax at checkout. [Shipping details to confirm]</p>' +
+      '<p class="note">Shipping and tax at checkout.</p>' +
       '<button class="btn btn-wide" type="button" data-checkout>Checkout</button><p data-checkout-status role="status"></p>';
   };
 
@@ -326,10 +326,10 @@
             '<p class="buy-pitch">' + esc(k.pitch) + '</p>' +
             '<div class="buy-group"><span class="label" id="size-label">Size</span><div class="opts" role="group" aria-labelledby="size-label">' +
               ORDER.map(o => '<a class="opt" href="' + kitUrl(o) + '"' + (o === id ? ' aria-current="true"' : '') + '><span>' + SIZE_LABEL[o] + '</span><small class="mono">' + money(KITS[o].price) + '</small></a>').join('') + '</div></div>' +
-            (k.colors ? '<fieldset class="buy-group"><legend>Color <span>[To confirm]</span></legend><div class="opts">' +
+            (k.colors ? '<fieldset class="buy-group"><legend>Color</legend><div class="opts">' +
               k.colors.map((c, i) => '<input class="vh" type="radio" name="color" id="color-' + i + '" data-variant data-photo="' + PHOTO + c.photo + '" value="' + c.id + '"' + (i ? '' : ' checked') + '><label class="opt opt-swatch" for="color-' + i + '"><i class="' + c.chip + '" aria-hidden="true"></i>' + c.id + '</label>').join('') + '</div></fieldset>' : '') +
             '<div class="buy-row">' + stepper('Quantity') + '<button class="btn" type="button" data-add="' + id + '">Add to cart</button></div>' +
-            '<ul class="buy-notes"><li>Ships from Port St. Lucie, Florida. [Shipping details to confirm]</li><li>' + esc(k.water) + '</li><li>Buying for a team, fleet or store? <a href="dealers.html">Ask for multi-kit or department pricing</a></li></ul>' +
+            '<ul class="buy-notes"><li>Ships from Port St. Lucie, Florida.</li><li>' + esc(k.water) + '</li><li>Buying for a team, fleet or store? <a href="dealers.html">Ask for multi-kit or department pricing</a></li></ul>' +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -338,15 +338,15 @@
           '<h3 class="sub">' + k.whyTitle + '</h3>' + ticks(k.why) + '<h3 class="sub">Ideal for</h3>' + ticks(k.ideal) + '</div>' +
         '<div><h2 class="head">What is inside</h2>' +
           '<table class="table"><thead><tr><th scope="col">Item</th><th scope="col">Count</th></tr></thead><tbody>' + k.contents.map(c => '<tr><th scope="row">' + esc(c[0]) + '</th><td>' + esc(c[1]) + '</td></tr>').join('') + '<tr><th scope="row"><strong>Items in the kit</strong></th><td>' + itemCount(k) + '</td></tr></tbody></table>' +
-          '<div class="note stack">' + (k.same ? '<p>' + esc(k.same) + '</p>' : '') + '<p>Each pack or pair counted as one. Genuine CAT tourniquets, sourced from authorized dealers. [To confirm]</p>' + (box ? '<p>A code inside the lid links to how-to videos. [Idea, to confirm]</p>' : '') + '</div>' +
+          '<div class="note stack">' + (k.same ? '<p>' + esc(k.same) + '</p>' : '') + '<p>Genuine CAT tourniquets, sourced from authorized dealers.</p>' + '</div>' +
           '<h3 class="sub">Specifications</h3><table class="table specs"><tbody>' +
             spec('Kit code', '<span class="mono">' + k.code + '</span>') + spec('Case', k.caseType) + (box ? spec('Case length', '<span class="mono">' + k.length + '</span>') : '') +
-            spec('Weight', '[To confirm]') + spec('Water rating', box ? '[Rating to confirm]' : 'Not a sealed case') + spec('Colors', '[To confirm]') +
+            (box ? '' : spec('Water rating', 'Not a sealed case')) +
             spec('Items in the kit', itemCount(k)) + spec('Price', '<span class="mono">' + money(k.price) + '</span>') + spec('Ships from', 'Port St. Lucie, FL') +
           '</tbody></table></div>' +
       '</div></section>' +
       '<section class="section-tight wrap"><div class="addon" data-buy><img src="' + PHOTO + CLASS.photo + '" alt="" loading="lazy" width="320" height="320">' +
-        '<div><h2 class="sub">Add the 8-hour trauma class</h2><p>Know how to use what you carry. Hands-on and in person, taught by the medics who build the kits. <span class="price">' + money(CLASS.price) + '</span> a seat. [Bundle price to confirm]</p></div>' +
+        '<div><h2 class="sub">Add the 8-hour trauma class</h2><p>Know how to use what you carry. Hands-on and in person, taught by the medics who build the kits. <span class="price">' + money(CLASS.price) + '</span> a seat.</p></div>' +
         '<div class="addon-buy"><label for="addon-date">Class date [Sample dates]</label><select id="addon-date" data-variant>' + CLASS.sessions.map(s => '<option>' + sessionLabel(s) + '</option>').join('') + '</select><button class="btn btn-navy" type="button" data-add="class">Add a seat</button></div></div></section>' +
       '<section class="section wrap"><div class="head-row"><h2 class="head">Other kits</h2><a class="more" href="kits.html#compare">Compare all four<i class="ph ph-arrow-right" aria-hidden="true"></i></a></div><div class="others">' +
         ORDER.filter(o => o !== id).map(o => '<a href="' + kitUrl(o) + '"><img src="' + PHOTO + KITS[o].photo + '" alt="" loading="lazy" width="64" height="64"><span><strong>' + esc(KITS[o].name) + '</strong><span>' + esc(KITS[o].short) + '</span></span><span class="price">' + money(KITS[o].price) + '</span></a>').join('') + '</div></section>';

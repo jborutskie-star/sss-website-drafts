@@ -244,7 +244,6 @@
               <a href="${TEL}">${PHONE}</a>
               <a href="mailto:${EMAIL}">${EMAIL}</a>
               <span>Port St. Lucie, Florida</span>
-              <span>Social <span class="tbc">[Links to confirm]</span></span>
             </address>
           </div>
         </div>
@@ -266,7 +265,7 @@
       <div class="drawer-body"></div>
       <div class="drawer-foot">
         <p class="subtotal"><span>Subtotal</span><span data-subtotal>$0.00</span></p>
-        <p class="drawer-note">Shipping and tax at checkout. <span class="tbc">[Shipping details to confirm]</span></p>
+        <p class="drawer-note">Shipping and tax at checkout.</p>
         <button class="btn btn-ink btn-block checkout" type="button">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></button>
         <p class="drawer-status" role="status"></p>
       </div>
@@ -451,7 +450,7 @@
     return `<section class="lid" aria-label="${esc(k.name)} packing list">
       <header class="lid-head"><${h} class="lid-title"><span class="lid-code">${k.code}</span> ${esc(k.name)}</${h}><p class="lid-count">${itemCount(k)} items</p></header>
       <ul class="lid-items">${k.contents.map(c => `<li><span class="lid-box" aria-hidden="true"></span><span class="lid-item">${esc(c[0])}</span><span class="lid-qty">${esc(c[1])}</span></li>`).join('')}</ul>
-      <footer class="lid-foot"><p>Each pack or pair counted as one item.</p><button class="text-btn" type="button" data-print-lid>Print this list</button></footer>
+      <footer class="lid-foot"><button class="text-btn" type="button" data-print-lid>Print this list</button></footer>
     </section>`;
   };
   $$('[data-lid]').forEach(el => { el.innerHTML = lid(el.dataset.lid || kitId, el.dataset.h || 'h3'); });
@@ -546,12 +545,10 @@
     put('spec', [
       ['Model', k.code],
       ['Case', esc(k.spec)],
-      ['Colors', k.colors ? k.colors.map(c => c.id).join(' or ') : tbc('To confirm')],
+      k.colors ? ['Colors', k.colors.map(c => c.id).join(' or ')] : null,
       ['Items in the kit', `<a href="#contents">${itemCount(k)} items</a>`],
-      ['Weight', tbc('To confirm')],
-      ['Water rating', tbc('Rating to confirm')],
       ['Ships from', 'Port St. Lucie, FL']
-    ].map(r => `<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join(''));
+    ].filter(Boolean).map(r => `<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join(''));
     put('why-title', k.whyTitle);
     put('why', k.why.map(w => `<li>${esc(w)}</li>`).join(''));
     put('ideal', k.ideal.map(w => `<li>${esc(w)}</li>`).join(''));
@@ -695,11 +692,10 @@
           <dl class="ses-data">
             <div><dt>Time</dt><dd><span class="mono">${s.time}</span> (${s.civTime})</dd></div>
             <div><dt>Length</dt><dd>8 hours, in person</dd></div>
-            <div><dt>Where</dt><dd>${esc(s.where)} <span class="tbc">[Venue to confirm]</span></dd></div>
+            <div><dt>Where</dt><dd>${esc(s.where)}</dd></div>
             <div><dt>Price</dt><dd><span class="mono">${money(CLASS_ITEM.price)}</span></dd></div>
           </dl>
-          <button class="btn btn-yellow btn-block" type="button" data-add="class" data-variant="${mil(s)}, ${s.time}">Reserve a seat<span class="vh">: ${civ(s)}</span></button>
-          <p class="ses-note">Seats <span class="tbc">[To confirm]</span></p>`;
+          <button class="btn btn-yellow btn-block" type="button" data-add="class" data-variant="${mil(s)}, ${s.time}">Reserve a seat<span class="vh">: ${civ(s)}</span></button>`;
         sessions.forEach(x => {
           const b = $('button', x.li);
           if (b) { if (x === sel) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); }

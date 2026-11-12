@@ -175,7 +175,6 @@
             <a href="${TEL}">${PHONE}</a>
             <a href="mailto:${EMAIL}">${EMAIL}</a>
             <span>Port St. Lucie, Florida</span>
-            <span>Social ${tbc('Links to confirm')}</span>
           </address>
         </div>
         <div class="foot__base">${brand(true)}
@@ -195,7 +194,7 @@
       <div class="drawer__body"></div>
       <div class="drawer__foot">
         <p class="drawer__sum"><span>Subtotal</span><span data-subtotal>$0.00</span></p>
-        <p class="drawer__note">Shipping and tax at checkout. ${tbc('Shipping details to confirm')}</p>
+        <p class="drawer__note">Shipping and tax at checkout.</p>
         <button class="btn btn--orange btn--block checkout" type="button">Checkout <i class="ph ph-arrow-right" aria-hidden="true"></i></button>
         <p class="drawer__status" role="status"></p>
       </div>
@@ -249,7 +248,7 @@
         <img src="${PHOTO + esc(l.photo)}" alt="" width="72" height="72">
         <div class="line__main">
           <p class="line__name">${esc(l.name)}</p>
-          ${l.variant ? `<p class="line__variant">${esc(l.variant)}${l.id === 'class' ? ' ' + tbc('Sample date') : ''}</p>` : ''}
+          ${l.variant ? `<p class="line__variant">${esc(l.variant)}</p>` : ''}
           <div class="line__ctrl">
             <div class="stepper stepper--sm" role="group" aria-label="Quantity, ${esc(l.name)}">
               <button type="button" data-step="-1" data-i="${i}" aria-label="One fewer"><i class="ph ph-minus" aria-hidden="true"></i></button>
@@ -373,7 +372,7 @@
     const k = KITS[id];
     const ruler = k.len
       ? `<p class="ruler" style="--i:${i}"><span class="ruler__line" aria-hidden="true"></span><span class="ruler__n">${k.len} in</span></p>`
-      : `<p class="ruler ruler--none">Not to scale. Pouch size ${tbc('To confirm')}</p>`;
+      : `<p class="ruler ruler--none">Not to scale</p>`;
     return `
       <li class="kit${k.len ? '' : ' kit--pouch'}" style="--len:${k.len || 16}">
         <a class="kit__photo" href="product.html?kit=${id}" tabindex="-1" aria-hidden="true"><img src="${PHOTO + k.photo}" alt="" width="${k.w}" height="${k.h}" loading="lazy"></a>
@@ -426,8 +425,7 @@
           <th role="rowheader" scope="row">Items in the kit</th>
           ${cols.map(id => `<td role="cell"><b>${itemCount(KITS[id])}</b></td>`).join('')}
         </tr></tfoot>
-      </table>
-      <p class="board__note">Each pack or pair counted as one.</p>`;
+      </table>`;
   };
 
   $$('[data-loadout]').forEach(el => { el.innerHTML = loadout(currentKit); });
@@ -443,11 +441,11 @@
     el.innerHTML = `
       <div class="sched__next">
         <p class="sched__date"><span class="vh">Next class: </span>${next.mil.split(' ').map(w => `<span>${w}</span>`).join(' ')}</p>
-        <p class="sched__line">Next class. ${next.long}, ${CLASS.time}, ${esc(next.where)}. ${tbc('Sample date')} ${tbc('Venue to confirm')}</p>
+        <p class="sched__line">Next class. ${next.long}, ${CLASS.time}, ${esc(next.where)}.</p>
         <div class="sched__buy">
           <p class="sched__price">${money(CLASS.price)}</p>
           ${reserve(next, 'btn--orange', 'Reserve a seat')}
-          ${short ? '<a class="link" href="classes.html#dates">All class dates <i class="ph ph-arrow-right" aria-hidden="true"></i></a>' : `<p class="sched__seats">Seats per class ${tbc('To confirm')}</p>`}
+          ${short ? '<a class="link" href="classes.html#dates">All class dates <i class="ph ph-arrow-right" aria-hidden="true"></i></a>' : ''}
         </div>
       </div>
       ${short ? '' : `
@@ -456,7 +454,7 @@
           <li>
             <span class="sched__d">${s.mil}</span>
             <span class="sched__w">${esc(s.where)} <span class="sched__t">${CLASS.time}</span></span>
-            <span class="sched__m">${tbc('Sample date')}</span>
+            <span class="sched__m"></span>
             ${reserve(s, 'btn--line btn--sm', 'Reserve')}
           </li>`).join('')}
       </ol>`}`;
@@ -597,7 +595,7 @@
         <img src="${PHOTO + k.photo}" alt="${esc(k.name)}" width="${k.w}" height="${k.h}" fetchpriority="high">
         ${boxed
           ? `<figcaption class="ruler is-set"><span class="ruler__line" aria-hidden="true"></span><span class="ruler__n">${k.len} in</span></figcaption>`
-          : `<figcaption class="ruler ruler--none">Pouch size ${tbc('To confirm')}</figcaption>`}`;
+          : `<figcaption class="ruler ruler--none">Wearable pouch</figcaption>`}`;
     }
 
     const colors = $('[data-p="colors"]');
@@ -612,17 +610,15 @@
     const spec = [
       ['Code', k.code],
       ['Case', esc(k.caseType)],
-      ['Colors', k.colors ? k.colors.join(' or ') : tbc('To confirm')],
-      ['Items', `${itemCount(k)}. Each pack or pair counted as one.`],
-      ['Weight', tbc('To confirm')],
-      ['Water', `${esc(k.water)}${boxed ? ' ' + tbc('Rating to confirm') : ''}`],
-      ['Tourniquet', `Genuine CAT tourniquets, sourced from authorized dealers. ${tbc('To confirm')}`],
+      k.colors ? ['Colors', k.colors.join(' or ')] : null,
+      ['Items', `${itemCount(k)}`],
+      ['Water', `${esc(k.water)}`],
+      ['Tourniquet', `Genuine CAT tourniquets, sourced from authorized dealers.`],
       ['Ready to use', 'Packed and organized. Open, grab, and work.'],
       ['Ships from', 'Port St. Lucie, Florida'],
-      ['Shipping', `Calculated at checkout. ${tbc('Shipping details to confirm')}`],
-      ['Restock', `Restock packs replace what you use. ${tbc('Refill packs to confirm')}`],
-      boxed ? ['Inside the lid', `A code that links to how-to videos. ${tbc('Idea, to confirm')}`] : null,
-      ['With the class', `Pair this kit with the <a href="classes.html">8-hour trauma class</a>, ${money(CLASS.price)}. ${tbc('Bundle price to confirm')}`]
+      ['Shipping', `Calculated at checkout.`],
+      ['Restock', `Restock packs replace what you use.`],
+      ['With the class', `Pair this kit with the <a href="classes.html">8-hour trauma class</a>, ${money(CLASS.price)}.`]
     ].filter(Boolean);
     set('spec', spec.map(([a, b]) => `<tr><th scope="row">${a}</th><td>${b}</td></tr>`).join(''));
 
