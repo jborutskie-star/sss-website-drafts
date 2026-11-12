@@ -804,7 +804,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px
 .i-state { fill: var(--paper); stroke: var(--ink-2); stroke-width: 1; stroke-linejoin: round; }
 .i-area path { fill: var(--ink); }
 .chart-scale { margin-top: 12px; font: 600 0.75rem/1.4 var(--mono); }
-.chart-scale i { display: block; width: calc(100% * 0.1761); height: 6px; margin-bottom: 5px; border: solid var(--fg); border-width: 0 1px 1px; }
+.chart-scale i { display: block; width: calc(100% * 0.1772); height: 6px; margin-bottom: 5px; border: solid var(--fg); border-width: 0 1px 1px; }
 .chart-src { margin-top: 6px; font-size: 0.8125rem; color: var(--fg-2); }
 
 /* About */

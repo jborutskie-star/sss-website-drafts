@@ -122,7 +122,9 @@
     return {
       where,
       mil: `${DAY[day].slice(0, 3)} ${String(d).padStart(2, '0')} ${MON[m - 1].slice(0, 3)} ${String(y).slice(2)}`.toUpperCase(),
-      long: `${DAY[day]}, ${MON[m - 1]} ${d}, ${y}`
+      long: `${DAY[day]}, ${MON[m - 1]} ${d}, ${y}`,
+      month: `${MON[m - 1]} ${y}`,
+      dd: String(d).padStart(2, '0')
     };
   };
 
@@ -381,7 +383,7 @@
           <h3 class="kit__name"><a href="product.html?kit=${id}">${esc(k.name)}</a></h3>
           <p class="kit__who">${k.who}</p>
           <p class="kit__facts"><span class="kit__price">${money(k.price)}</span><span>${itemCount(k)} items</span></p>
-          <button class="btn btn--line" type="button" data-add="${id}" aria-label="Add ${esc(k.name)} to cart">Add to cart</button>
+          <button class="kit__add" type="button" data-add="${id}" aria-label="Add ${esc(k.name)} to cart">Add to cart <i class="ph ph-plus" aria-hidden="true"></i></button>
         </div>
       </li>`;
   };
@@ -437,27 +439,35 @@
   $$('[data-board]').forEach(el => {
     const all = SESSIONS.map(session);
     const next = all[0];
-    const short = el.dataset.board === 'next';
+    if (el.dataset.board === 'next') {
+      el.innerHTML = `
+        <div class="sched__next">
+          <p class="sched__date"><span class="vh">Next class: </span>${next.mil.split(' ').map(w => `<span>${w}</span>`).join(' ')}</p>
+          <p class="sched__line">Next class. ${next.long}, ${CLASS.time}, ${esc(next.where)}.</p>
+          <div class="sched__buy">
+            <p class="sched__price">${money(CLASS.price)}</p>
+            ${reserve(next, 'btn--orange', 'Reserve a seat')}
+            <a class="link" href="classes.html#dates">All class dates <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </div>`;
+      return;
+    }
+    /* Classes page: every date under its month. */
+    const months = [];
+    all.forEach((s, i) => {
+      let m = months.find(x => x.name === s.month);
+      if (!m) months.push(m = { name: s.month, rows: [] });
+      m.rows.push(`
+        <li${i ? '' : ' class="is-next"'}>
+          <span class="month__day" aria-hidden="true">${s.dd}</span>
+          <span class="month__when">${s.long}${i ? '' : '<span class="month__tag">Next class</span>'}</span>
+          <span class="month__where">${esc(s.where)}, ${CLASS.time}</span>
+          ${reserve(s, i ? 'btn--line btn--sm' : 'btn--orange btn--sm', 'Reserve')}
+        </li>`);
+    });
     el.innerHTML = `
-      <div class="sched__next">
-        <p class="sched__date"><span class="vh">Next class: </span>${next.mil.split(' ').map(w => `<span>${w}</span>`).join(' ')}</p>
-        <p class="sched__line">Next class. ${next.long}, ${CLASS.time}, ${esc(next.where)}.</p>
-        <div class="sched__buy">
-          <p class="sched__price">${money(CLASS.price)}</p>
-          ${reserve(next, 'btn--orange', 'Reserve a seat')}
-          ${short ? '<a class="link" href="classes.html#dates">All class dates <i class="ph ph-arrow-right" aria-hidden="true"></i></a>' : ''}
-        </div>
-      </div>
-      ${short ? '' : `
-      <ol class="sched__rows" aria-label="Later classes">
-        ${all.slice(1).map(s => `
-          <li>
-            <span class="sched__d">${s.mil}</span>
-            <span class="sched__w">${esc(s.where)} <span class="sched__t">${CLASS.time}</span></span>
-            <span class="sched__m"></span>
-            ${reserve(s, 'btn--line btn--sm', 'Reserve')}
-          </li>`).join('')}
-      </ol>`}`;
+      <div class="months">${months.map(m => `<section class="month"><h3 class="month__name">${m.name}</h3><ol>${m.rows.join('')}</ol></section>`).join('')}</div>
+      <p class="sched__foot"><b>${money(CLASS.price)}</b> a seat. Every class runs ${CLASS.time}, in person.</p>`;
   });
 
   /* ---------- The Treasure Coast map ----------
@@ -467,7 +477,6 @@
      project(), so a label can only sit on its own line. Nothing is placed by eye. */
 
   const project = (lat, lonW) => [961.6 - (lonW - 80) * 120.4286, 592.2 + (27 - lat) * 136.1];
-  const STATE_VIEW = [0, -13, 1000, 1000];
   const COAST_VIEW = [784, 438, 284, 284];
   /* name, latitude, longitude west, and how far the label drops below its mark to clear its neighbour */
   const TOWNS = [
@@ -477,6 +486,7 @@
     ['Jupiter', 26.9342, 80.0942, 0]
   ];
   const LABEL_X = 975;
+  const SWATCH = { Orange: '#E8641B', Beige: '#C2B08A', Black: '#26282B' };
 
   const map = $('[data-map]');
   if (map) {
@@ -489,7 +499,7 @@
 
     const build = src => {
       const doc = new DOMParser().parseFromString(src, 'image/svg+xml');
-      const svg = el('svg', { viewBox: STATE_VIEW.join(' '), 'aria-hidden': 'true', focusable: 'false' });
+      const svg = el('svg', { viewBox: COAST_VIEW.join(' '), 'aria-hidden': 'true', focusable: 'false' });
       const grat = el('g', { class: 'map__grat' });
       const ticks = [];
       for (let lon = 80; lon <= 87; lon++) {
@@ -505,10 +515,11 @@
       const land = el('g', { class: 'map__land' });
       $$('.counties path, path.state', doc).forEach(p => land.appendChild(document.importNode(p, true)));
       const coast = el('g', { class: 'map__coast' });
-      const north = ['Indian River', 'St. Lucie', 'Martin', 'Palm Beach'];
+      const north = ['Indian River', 'St. Lucie', 'Martin'];
       $$('.treasure-coast path', doc)
+        .filter(p => { if (north.includes(p.getAttribute('data-county'))) return true; land.appendChild(document.importNode(p, true)); return false; })
         .sort((a, b) => north.indexOf(a.getAttribute('data-county')) - north.indexOf(b.getAttribute('data-county')))
-        .forEach((p, i) => { const c = document.importNode(p, true); c.style.setProperty('--i', i); coast.appendChild(c); });
+        .forEach(p => coast.appendChild(document.importNode(p, true)));
       const leads = el('g', { class: 'map__leads' });
       const marks = TOWNS.map(([name, lat, lon, drop]) => {
         const [x, y] = project(lat, lon);
@@ -533,39 +544,9 @@
       return svg;
     };
 
-    const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-    const MOVE = 6400;
-    let raf = 0;
-    const settle = svg => { svg.setAttribute('viewBox', COAST_VIEW.join(' ')); map.classList.add('is-settled'); };
-    const run = svg => {
-      cancelAnimationFrame(raf);
-      map.classList.remove('is-settled');
-      let start = 0;
-      const frame = now => {
-        if (!start) start = now;
-        const t = Math.min(1, (now - start) / MOVE);
-        /* Width is eased on a log scale so the approach reads as one steady move, not a rush at the end. */
-        const w = STATE_VIEW[2] * Math.pow(vw / STATE_VIEW[2], ease(t));
-        const span = (w - STATE_VIEW[2]) / (vw - STATE_VIEW[2]);
-        const x = STATE_VIEW[0] + (vx - STATE_VIEW[0]) * span;
-        const y = STATE_VIEW[1] + (vy - STATE_VIEW[1]) * span;
-        svg.setAttribute('viewBox', `${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${w.toFixed(2)}`);
-        if (t < 1) raf = requestAnimationFrame(frame);
-        else map.classList.add('is-settled');
-      };
-      raf = requestAnimationFrame(frame);
-    };
-
     fetch('assets/florida-counties.svg')
       .then(r => { if (!r.ok) throw new Error('map'); return r.text(); })
-      .then(src => {
-        const svg = build(src);
-        const again = $('[data-map-replay]', map);
-        if (reduced || !('IntersectionObserver' in window)) { settle(svg); return; }
-        const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { run(svg); io.disconnect(); } }, { threshold: 0.35 });
-        io.observe(map);
-        if (again) { again.hidden = false; again.addEventListener('click', () => run(svg)); }
-      })
+      .then(build)
       .catch(() => { map.hidden = true; });
   }
 
@@ -602,7 +583,7 @@
     if (colors) {
       colors.hidden = !k.colors;
       if (k.colors) {
-        colors.innerHTML = `<legend>Case color</legend><div class="choice">${k.colors.map((c, i) => `<label><input type="radio" name="color" value="${c}"${i ? '' : ' checked'}><span>${c}</span></label>`).join('')}</div>`;
+        colors.innerHTML = `<legend>Case color</legend><div class="choice">${k.colors.map((c, i) => `<label><input type="radio" name="color" value="${c}"${i ? '' : ' checked'}><span style="--sw:${SWATCH[c] || ''}">${c}</span></label>`).join('')}</div>`;
       }
     }
     $$('[data-add-kit]').forEach(b => { b.dataset.add = id; b.setAttribute('aria-label', `Add ${k.name} to cart`); });
